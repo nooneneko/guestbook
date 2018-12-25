@@ -33,7 +33,7 @@ public class GuestBookPortlet extends MVCPortlet {
 		String name = ParamUtil.getString(request, "name");
 		String email = ParamUtil.getString(request, "email");
 		String message = ParamUtil.getString(request, "message");
-		long guestBookId = ParamUtil.getLong(request, "guestBookId");
+		long guestBookId = ParamUtil.getLong(request, "guestbookId");
 		
 		try {
 			EntryLocalServiceUtil.addEntry(serviceContext.getUserId(), 
@@ -50,30 +50,37 @@ public class GuestBookPortlet extends MVCPortlet {
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
 		try {
-			ServiceContext serviceContext = ServiceContextFactory.getInstance(
-					GuestBookPortlet.class.getName(), renderRequest);
-			long groupId = serviceContext.getScopeGroupId();
-			
-			long guestBookId = ParamUtil.getLong(renderRequest, "guestbookId");
-			
-			List<GuestBook> guestBooks = GuestBookLocalServiceUtil.getGuestbooks(groupId);
-			if (guestBooks.size() == 0) {
-				GuestBook guestBook = GuestBookLocalServiceUtil.addGuestBook(serviceContext.getUserId(), "Main",
-						serviceContext);
-				guestBookId = guestBook.getGuestBookId();
-			}
-			
-			if (guestBooks.size() > 0) {
-				guestBookId = guestBooks.get(0).getGuestBookId();
-			}
-			
-			renderRequest.setAttribute("guestbookId", guestBookId);;
-			
-		} catch (Exception e) {
-			throw new PortletException(e);
-		}
-		
-		super.render(renderRequest, renderResponse);
+	        ServiceContext serviceContext = ServiceContextFactory.getInstance(
+	                GuestBook.class.getName(), renderRequest);
+
+	        long groupId = serviceContext.getScopeGroupId();
+
+	        long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
+
+	        List<GuestBook> guestbooks = GuestBookLocalServiceUtil
+	                .getGuestbooks(groupId);
+
+	        if (guestbooks.size() == 0) {
+	        	GuestBook guestbook = GuestBookLocalServiceUtil.addGuestBook(
+	                    serviceContext.getUserId(), "Main", serviceContext);
+
+	            guestbookId = guestbook.getGuestBookId();
+
+	        }
+	        
+	        if (!(guestbookId > 0)) {
+	            guestbookId = guestbooks.get(0).getGuestBookId();
+	        }
+
+	        renderRequest.setAttribute("guestbookId", guestbookId);
+
+	    } catch (Exception e) {
+
+	        throw new PortletException(e);
+	    }
+
+	    super.render(renderRequest, renderResponse);
+
 	}
 	
 	public void addGuestBook(ActionRequest actionRequest, ActionResponse actionResponse) throws PortalException, SystemException {

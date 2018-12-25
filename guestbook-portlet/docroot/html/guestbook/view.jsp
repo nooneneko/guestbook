@@ -4,14 +4,15 @@
 %>
 
 <aui:nav cssClass="nav-tabs">
+
 	<%
-		List<GuestBook> guestBooks = GuestBookLocalServiceUtil.getGuestbooks(scopeGroupId);
-			for (GuestBook guestBook : guestBooks) {
-				GuestBook curGuestbook = guestBook;
+		List<GuestBook> guestbooks = GuestBookLocalServiceUtil.getGuestbooks(scopeGroupId);
+			for (int i = 0; i < guestbooks.size(); i++) {
+				GuestBook curGuestbook = (GuestBook) guestbooks.get(i);
 
 				String cssClass = StringPool.BLANK;
 
-				if (guestBookId == curGuestbook.getGuestBookId()) {
+				if (curGuestbook.getGuestBookId() == guestBookId) {
 					cssClass = "active";
 				}
 	%>
@@ -28,38 +29,41 @@
 	<%
 		}
 	%>
+	<aui:button-row>
+		<portlet:renderURL var="viewEditGuestBook">
+			<portlet:param name="mvcPath"
+				value="/html/guestbook/edit_guestbook.jsp" />
+		</portlet:renderURL>
+
+		<portlet:renderURL var="viewEditEntry">
+			<portlet:param name="mvcPath" value="/html/guestbook/edit_entry.jsp" />
+		</portlet:renderURL>
+
+		<aui:button onClick="<%=viewEditGuestBook.toString() %>"
+			value="Add GuestBook"></aui:button>
+		<aui:button onClick="<%=viewEditEntry.toString() %>" value="Add Entry"></aui:button>
+	</aui:button-row>
+
+	<liferay-ui:search-container
+		total="<%=EntryLocalServiceUtil.getEntriesCount()%>">
+		<liferay-ui:search-container-results
+			results="<%=EntryLocalServiceUtil.getEntrys(scopeGroupId, guestBookId, searchContainer.getStart(),
+							searchContainer.getEnd())%>" />
+
+		<liferay-ui:search-container-row
+			className="com.liferay.docs.guestbook.model.Entry" modelVar="entry">
+
+			<liferay-ui:search-container-column-text property="message" />
+
+			<liferay-ui:search-container-column-text property="name" />
+
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator />
+	</liferay-ui:search-container>
 </aui:nav>
 
-<aui:button-row>
-	<portlet:renderURL var="viewEditGuestBook">
-		<portlet:param name="mvcPath"
-			value="/html/guestbook/edit_guestbook.jsp" />
-	</portlet:renderURL>
 
-	<portlet:renderURL var="viewEditEntry">
-		<portlet:param name="mvcPath" value="/html/guestbook/edit_entry.jsp" />
-	</portlet:renderURL>
-
-	<aui:button onClick="<%=viewEditGuestBook %>" value="Add GuestBook"></aui:button>
-	<aui:button onClick="<%=viewEditEntry %>" value="Add Entry"></aui:button>
-</aui:button-row>
-
-<liferay-ui:search-container
-	total="<%=EntryLocalServiceUtil.getEntriesCount()%>">
-	java.util.List<?> results = (java.util.List<?>) pageContext.getAttribute("results");
-	<liferay-ui:search-container-row
-		className="com.liferay.docs.guestbook.model.Entry" modelVar="entry">
-
-		<liferay-ui:search-container-column-text property="message" />
-
-		<liferay-ui:search-container-column-text property="name" />
-		
-		<liferay-ui:search-container-column-text property="email" />
-
-	</liferay-ui:search-container-row>
-
-	<liferay-ui:search-iterator />
-</liferay-ui:search-container>
 
 
 
