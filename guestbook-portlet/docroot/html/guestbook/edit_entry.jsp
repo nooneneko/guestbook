@@ -5,16 +5,29 @@
 </portlet:renderURL>
 
 <portlet:actionURL name="addEntry" var="addEntryURL"></portlet:actionURL>
+<%
+	long entryId = ParamUtil.getLong(renderRequest, "entryId");
 
+	Entry entry = null;
+
+	if (entryId > 0) {
+
+		entry = EntryLocalServiceUtil.getEntry(entryId);
+
+	}
+
+	long guestbookId = ParamUtil.getLong(renderRequest, "guestBookId");
+%>
 <aui:form action="<%=addEntryURL%>" name="<portlet:namespace />fm">
-
+	<aui:model-context bean="<%= entry %>" model="<%= Entry.class %>" />
 	<aui:fieldset>
 
 		<aui:input name="name" />
 		<aui:input name="email" />
 		<aui:input name="message" />
-		<aui:input name='guestbookId' type='hidden'
-			value='<%=ParamUtil.getString(renderRequest, "guestbookId")%>' />
+		<aui:input name="entryId" type="hidden" />
+		<aui:input name='guestBookId' type='hidden'
+			value='<%=entry == null ? guestbookId : entry.getGuestBookId() %>' />
 
 	</aui:fieldset>
 

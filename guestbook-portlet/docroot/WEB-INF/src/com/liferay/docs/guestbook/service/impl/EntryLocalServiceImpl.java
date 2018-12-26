@@ -18,11 +18,14 @@ import java.util.Date;
 import java.util.List;
 
 import com.liferay.docs.guestbook.model.Entry;
+import com.liferay.docs.guestbook.model.GuestBook;
 import com.liferay.docs.guestbook.service.base.EntryLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.User;
+import com.liferay.portal.model.UserPersonalSite;
 import com.liferay.portal.service.ServiceContext;
 
 /**
@@ -95,7 +98,51 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 		entry.setExpandoBridgeAttributes(serviceContext);
 		
 		entryPersistence.update(entry);
+		
+		resourceLocalService.addResources(serviceContext.getCompanyId(), groupId, userId, 
+				Entry.class.getName(), entryId, false, true, true);
 		return entry;
+	}
+	
+	public Entry deleteEntry(long entryId, ServiceContext serviceContext) throws PortalException, SystemException {
+		Entry entry = getEntry(entryId);
+		resourceLocalService.deleteResource(serviceContext.getCompanyId(), 
+				Entry.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, entryId);
+		entry = deleteEntry(entry);
+		
+		return entry;
+		
+	}
+	
+	public Entry updateEntry(long userId, long guestBookId, long entryId, String name,
+			String email, String message, ServiceContext serviceContext) throws PortalException, SystemException {
+		User user = userPersistence.findByPrimaryKey(userId);
+		
+		long groupId = serviceContext.getScopeGroupId();
+		
+		Date now = new Date();
+		
+		validate(name, email, message);
+		
+		Entry entry = getEntry(entryId);
+		
+		entry.setUserId(userId);
+		entry.setUserName(user.getFullName());
+		entry.setModifiedDate(serviceContext.getModifiedDate(now));
+		entry.setName(name);
+		entry.setEmail(email);
+		entry.setMessage(message);
+		entry.setExpandoBridgeAttributes(serviceContext);
+		
+		entryPersistence.update(entry);
+		
+		resourceLocalService.updateResources(serviceContext.getCompanyId(), 
+				groupId, GuestBook.class.getName(), entryId, 
+				serviceContext.getGroupPermissions(), 
+				serviceContext.getGuestPermissions());;
+		
+		return entry;
+		
 	}
 
 }
