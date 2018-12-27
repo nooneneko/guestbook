@@ -1,4 +1,4 @@
-<%@ include file="/html/guestbook/init.jsp"%>
+<%@ include file="/html/init.jsp"%>
 <%
 	long guestBookId = Long.parseLong(renderRequest.getAttribute("guestBookId").toString());
 %>
@@ -15,7 +15,7 @@
 				if (curGuestbook.getGuestBookId() == guestBookId) {
 					cssClass = "active";
 				}
-				if (GuestBookPermission.contain(permissionChecker, curGuestbook.getGuestBookId(), "VIEW")) {
+				if (GuestBookPermission.contain(permissionChecker, curGuestbook.getGuestBookId(), ActionKeys.VIEW)) {
 	%>
 
 	<portlet:renderURL var="viewPageURL">

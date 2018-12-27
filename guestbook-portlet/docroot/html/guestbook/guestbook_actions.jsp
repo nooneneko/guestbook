@@ -1,4 +1,4 @@
-<%@ include file="/html/guestbook/init.jsp"%>
+<%@ include file="/html/init.jsp"%>
 <%
 	String mcvPath = ParamUtil.getString(request, "mvcPath");
 

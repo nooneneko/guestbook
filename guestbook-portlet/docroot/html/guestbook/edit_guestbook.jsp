@@ -1,4 +1,4 @@
-<%@include file = "/html/guestbook/init.jsp" %>
+<%@include file = "/html/init.jsp" %>
 
 <portlet:renderURL var="viewURL">
     <portlet:param name="mvcPath" value="/html/guestbook/view.jsp"></portlet:param>

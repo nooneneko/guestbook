@@ -108,7 +108,7 @@ public class GuestBookPortlet extends MVCPortlet {
 	
 	public void addGuestBook(ActionRequest actionRequest, ActionResponse actionResponse) throws PortalException, SystemException {
 		ServiceContext serviceContext = ServiceContextFactory
-				.getInstance(GuestBookPortlet.class.getName(), actionRequest);
+				.getInstance(GuestBook.class.getName(), actionRequest);
 		String name = ParamUtil.getString(actionRequest, "name");
 		
 		try {

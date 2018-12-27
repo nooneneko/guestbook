@@ -18,11 +18,14 @@ import java.util.Date;
 import java.util.List;
 
 import com.liferay.docs.guestbook.GuestBookNameException;
+import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.model.GuestBook;
+import com.liferay.docs.guestbook.service.EntryLocalServiceUtil;
 import com.liferay.docs.guestbook.service.base.GuestBookLocalServiceBaseImpl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
 
@@ -88,6 +91,57 @@ public class GuestBookLocalServiceImpl extends GuestBookLocalServiceBaseImpl {
 				userId, GuestBook.class.getName(),  
 				guestbookId, false, true, true);
 		return guestbook;
+	}
+	
+	public GuestBook updateGuestBook(long userId, long guestBookId, String name, 
+			ServiceContext serviceContext) throws PortalException, SystemException {
+		User user = userPersistence.findByPrimaryKey(userId);
+		
+		long groupId = serviceContext.getScopeGroupId();
+		
+		Date now = new Date();
+		
+		validate(name);
+		
+		GuestBook guestBook = getGuestBook(guestBookId);
+		
+		guestBook.setUserId(userId);
+		guestBook.setUserName(user.getFullName());
+		guestBook.setModifiedDate(serviceContext.getModifiedDate(now));
+		guestBook.setName(name);
+		guestBook.setExpandoBridgeAttributes(serviceContext);
+		
+		guestBookPersistence.update(guestBook);
+		
+		resourceLocalService.updateResources(serviceContext.getCompanyId(), groupId, GuestBook.class.getName(),
+				guestBookId, serviceContext.getGroupPermissions(), serviceContext.getGuestPermissions());
+		return guestBook;
+		
+	}
+	
+	public GuestBook deleteGuestBook(long guestBookId, ServiceContext serviceContext) throws PortalException, SystemException {
+		
+		GuestBook guestBook = getGuestBook(guestBookId);
+		
+		List<Entry> entries = EntryLocalServiceUtil.getEntrys(serviceContext.getScopeGroupId(), guestBookId);
+		
+		if (entries.size() > 0) {
+			for (Entry entry : entries) {
+				EntryLocalServiceUtil.deleteEntry(entry);
+			}
+		}
+		
+		resourceLocalService.deleteResource(serviceContext.getCompanyId(), GuestBook.class.getName(), 
+				ResourceConstants.SCOPE_INDIVIDUAL, guestBookId);
+		
+		guestBook = deleteGuestBook(guestBook);
+		
+		return guestBook;
+		
+	}
+	
+	public int getGuestbooksCount(long groupId) throws SystemException {
+        return guestBookPersistence.countByGroupId(groupId);
 	}
 	
 	protected void validate (String name) throws PortalException {
