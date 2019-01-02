@@ -22,9 +22,19 @@
 		<column name="createDate" type="Date"></column>
 		<column name="modifiedDate" type="Date"></column>
         <column name="name" type="String"></column>
+        <column name="status" type="int"></column>
+        <column name="statusByUserId" type="long"></column>
+        <column name="statusByUserName" type="String"></column>
+        <column name="statusDate" type="Date"></column>
         <finder name="GroupId" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
+        <finder name="G_S" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="status"></finder-column>
+        </finder>
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"></reference>
+        <reference entity="AssetLink" package-path="com.liferay.portlet.asset"></reference>
 	</entity>
 	<entity name="Entry" local-service="true" uuid="true">
 
@@ -47,10 +57,21 @@
         <column name="email" type="String"></column>
         <column name="message" type="String"></column>
         <column name="guestBookId" type="long"></column>
+        <column name="status" type="int"></column>
+        <column name="statusByUserId" type="long"></column>
+        <column name="statusByUserName" type="String"></column>
+        <column name="statusDate" type="Date"></column>
         <finder name="G_G" return-type="Collection">
             <finder-column name="groupId"></finder-column>
             <finder-column name="guestBookId"></finder-column>
         </finder>
+        <finder name="G_G_S" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="guestBookId"></finder-column>
+            <finder-column name="status"></finder-column>
+        </finder>
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"></reference>
+        <reference entity="AssetLink" package-path="com.liferay.portlet.asset"></reference>
 	</entity>
     <exceptions>
         <exception>GuestBookName</exception>

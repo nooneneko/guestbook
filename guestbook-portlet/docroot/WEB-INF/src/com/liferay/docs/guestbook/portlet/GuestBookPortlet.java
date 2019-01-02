@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.ServiceContextFactory;
 import com.liferay.portal.util.PortalUtil;
@@ -80,7 +81,7 @@ public class GuestBookPortlet extends MVCPortlet {
 	        long guestbookId = ParamUtil.getLong(renderRequest, "guestBookId");
 
 	        List<GuestBook> guestbooks = GuestBookLocalServiceUtil
-	                .getGuestbooks(groupId);
+	                .getGuestbooks(groupId, WorkflowConstants.STATUS_APPROVED);
 
 	        if (guestbooks.size() == 0) {
 	        	GuestBook guestbook = GuestBookLocalServiceUtil.addGuestBook(

@@ -15,7 +15,15 @@
 		results="<%=GuestBookLocalServiceUtil.getGuestbooks(scopeGroupId, searchContainer.getStart(), 
 				searchContainer.getEnd()) %>"/>
 	<liferay-ui:search-container-row className="com.liferay.docs.guestbook.model.GuestBook" modelVar="guestBook">
-		<liferay-ui:search-container-column-text property="name"/>
+		<portlet:renderURL var="viewGuestbookURL">
+	        <portlet:param name="mvcPath" value="/html/guestbookadmin/view_guestbook.jsp" />
+	        <portlet:param name="guestBookId" value='<%=String.valueOf(guestBook.getGuestBookId()) %>' />
+		</portlet:renderURL>
+		<liferay-ui:search-container-column-text property="name" href="<%=viewGuestbookURL %>"/>
+		<liferay-ui:search-container-column-text name="status" >
+       		<aui:workflow-status showIcon="<%= false %>" showLabel="<%= false %>"
+            	status="<%= guestBook.getStatus() %>" />
+    	</liferay-ui:search-container-column-text>
 		<liferay-ui:search-container-column-jsp path="/html/guestbookadmin/guestbook_action.jsp" align="right"/>
 	</liferay-ui:search-container-row>
 	<liferay-ui:search-iterator />

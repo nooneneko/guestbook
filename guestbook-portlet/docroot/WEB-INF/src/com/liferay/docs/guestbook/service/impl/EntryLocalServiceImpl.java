@@ -20,14 +20,24 @@ import java.util.List;
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.model.GuestBook;
 import com.liferay.docs.guestbook.service.base.EntryLocalServiceBaseImpl;
+import com.liferay.docs.guestbook.util.PortletKeys;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.User;
+import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.security.permission.PermissionChecker;
+import com.liferay.portal.security.permission.PermissionThreadLocal;
 import com.liferay.portal.service.ServiceContext;
+import com.liferay.portlet.asset.model.AssetEntry;
+import com.liferay.portlet.asset.model.AssetLinkConstants;
 
 /**
  * The implementation of the entry local service.
@@ -56,12 +66,16 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 	 * local service.
 	 */
 
-	public List<Entry> getEntrys(long groupId, long guestBookId) throws SystemException {
+	public List<Entry> getEntries(long groupId, long guestBookId) throws SystemException {
 		return entryPersistence.findByG_G(groupId, guestBookId);
 	}
 
-	public List<Entry> getEntrys(long groupId, long guestBookId, int start, int end) throws SystemException {
-		return entryPersistence.findByG_G(groupId, guestBookId, start, end);
+	public List<Entry> getEntries(long groupId, long guestBookId, int status, int start, int end) throws SystemException {
+		return entryPersistence.findByG_G_S(groupId, guestBookId, status, start, end);
+	}
+	
+	public int getEntriesCount(long groupId, long guestBookId, int status) throws SystemException{
+		return entryPersistence.countByG_G_S(groupId, guestBookId, status);
 	}
 
 	public boolean validate(String name, String email, String message) throws SystemException, PortalException {
@@ -101,16 +115,21 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 		entry.setName(name);
 		entry.setEmail(email);
 		entry.setMessage(message);
+		entry.setStatus(!isGroupOwner(groupId) ? WorkflowConstants.STATUS_DRAFT : WorkflowConstants.STATUS_APPROVED);
 		entry.setGuestBookId(guestBookId);
 		entry.setExpandoBridgeAttributes(serviceContext);
 
 		entryPersistence.update(entry);
 
-		resourceLocalService.addResources(serviceContext.getCompanyId(), groupId, userId, Entry.class.getName(),
+		resourceLocalService.addResources(serviceContext.getCompanyId(), 
+				groupId, userId, Entry.class.getName(),
 				entryId, false, true, true);
-
-		Indexer indexer = IndexerRegistryUtil.nullSafeGetIndexer(Entry.class);
-		indexer.reindex(entry);
+		updateAssetEntry(serviceContext, entry, false);
+		updateIndexer(entry, false);
+		
+		WorkflowHandlerRegistryUtil.startWorkflowInstance(entry.getCompanyId(), 
+		         entry.getGroupId(), entry.getUserId(), Entry.class.getName(), 
+		         entry.getPrimaryKey(), entry, serviceContext);
 		return entry;
 	}
 
@@ -118,9 +137,10 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 		Entry entry = getEntry(entryId);
 		resourceLocalService.deleteResource(serviceContext.getCompanyId(), Entry.class.getName(),
 				ResourceConstants.SCOPE_INDIVIDUAL, entryId);
+		updateAssetEntry(serviceContext, entry, true);
+		updateIndexer(entry, true);
 		entry = deleteEntry(entry);
-		Indexer indexer = IndexerRegistryUtil.nullSafeGetIndexer(Entry.class);
-		indexer.delete(entry);
+		
 		return entry;
 
 	}
@@ -149,11 +169,65 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 
 		resourceLocalService.updateResources(serviceContext.getCompanyId(), groupId, GuestBook.class.getName(), entryId,
 				serviceContext.getGroupPermissions(), serviceContext.getGuestPermissions());
-
-		Indexer indexer = IndexerRegistryUtil.nullSafeGetIndexer(Entry.class);
-		indexer.reindex(entry);
+		updateAssetEntry(serviceContext, entry, false);
+		updateIndexer(entry, false);
+		
 		return entry;
 
+	}
+
+	public Entry updateStatus(long userId, long entryId, int status,
+			ServiceContext serviceContext) throws PortalException, SystemException {
+		User user = userLocalService.getUser(userId);
+		Entry entry = getEntry(entryId);   
+		
+		entry.setStatus(status);
+		entry.setStatusByUserId(userId);
+		entry.setStatusByUserName(user.getFullName());
+		entry.setStatusDate(new Date()); 
+		
+		entryPersistence.update(entry);
+		
+		if (WorkflowConstants.STATUS_APPROVED == status) {
+			assetEntryLocalService.updateVisible(getModelClassName(), entryId, true);
+		} else {
+			assetEntryLocalService.updateVisible(getModelClassName(), entryId, false);
+		}
+		
+		return entry;
+	}
+	
+	private void updateIndexer(Entry entry, boolean isDelete) throws SearchException {
+		Indexer indexer = IndexerRegistryUtil.nullSafeGetIndexer(Entry.class.getName());
+		if (isDelete) {
+			indexer.delete(entry);
+		} else {
+			indexer.reindex(entry);
+		}
+
+	}
+
+	private void updateAssetEntry(ServiceContext serviceContext, Entry entry, boolean isDelete)
+			throws SystemException, PortalException {
+		if (isDelete) {
+			AssetEntry assetEntry = assetEntryLocalService.fetchEntry(Entry.class.getName(), entry.getEntryId());
+			assetLinkLocalService.deleteLinks(assetEntry.getEntryId());
+			assetEntryLocalService.deleteEntry(assetEntry);
+		} else {
+			AssetEntry assetEntry = assetEntryLocalService.updateEntry(entry.getUserId(), 
+					entry.getGroupId(), entry.getCreateDate(), 
+					entry.getModifiedDate(), Entry.class.getName(), entry.getEntryId(), entry.getUuid(), 0,
+					serviceContext.getAssetCategoryIds(), serviceContext.getAssetTagNames(), true, null, null, null,
+					ContentTypes.TEXT_HTML, entry.getMessage(), null, null, null, null, 0, 0, null, false);
+
+			assetLinkLocalService.updateLinks(entry.getUserId(), assetEntry.getEntryId(), serviceContext.getAssetLinkEntryIds(),
+					AssetLinkConstants.TYPE_RELATED);
+		}
+	}
+	
+	public boolean isGroupOwner(long groupId) {
+		PermissionChecker permissionChecker = PermissionThreadLocal.getPermissionChecker();
+		return permissionChecker.isGroupOwner(groupId);
 	}
 
 }

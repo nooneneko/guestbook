@@ -46,7 +46,7 @@ public class GuestBookAdminPortlet extends MVCPortlet {
 		 } catch (Exception e) {
 			SessionErrors.add(actionRequest, e.getClass().getName());
 			
-			actionResponse.setRenderParameter("mvcPath", "/html/guestbookadmin/edit_guestbook,jsp");
+			actionResponse.setRenderParameter("mvcPath", "/html/guestbookadmin/edit_guestbook.jsp");
 		}
 	 }
 	 

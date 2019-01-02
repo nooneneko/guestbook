@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.StagedGroupedModel;
+import com.liferay.portal.model.WorkflowedModel;
 import com.liferay.portal.service.ServiceContext;
 
 import com.liferay.portlet.expando.model.ExpandoBridge;
@@ -40,7 +41,8 @@ import java.util.Date;
  * @see com.liferay.docs.guestbook.model.impl.GuestBookModelImpl
  * @generated
  */
-public interface GuestBookModel extends BaseModel<GuestBook>, StagedGroupedModel {
+public interface GuestBookModel extends BaseModel<GuestBook>, StagedGroupedModel,
+	WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -220,6 +222,158 @@ public interface GuestBookModel extends BaseModel<GuestBook>, StagedGroupedModel
 	 * @param name the name of this guest book
 	 */
 	public void setName(String name);
+
+	/**
+	 * Returns the status of this guest book.
+	 *
+	 * @return the status of this guest book
+	 */
+	@Override
+	public int getStatus();
+
+	/**
+	 * Sets the status of this guest book.
+	 *
+	 * @param status the status of this guest book
+	 */
+	@Override
+	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this guest book.
+	 *
+	 * @return the status by user ID of this guest book
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this guest book.
+	 *
+	 * @param statusByUserId the status by user ID of this guest book
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this guest book.
+	 *
+	 * @return the status by user uuid of this guest book
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public String getStatusByUserUuid() throws SystemException;
+
+	/**
+	 * Sets the status by user uuid of this guest book.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this guest book
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this guest book.
+	 *
+	 * @return the status by user name of this guest book
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this guest book.
+	 *
+	 * @param statusByUserName the status by user name of this guest book
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this guest book.
+	 *
+	 * @return the status date of this guest book
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this guest book.
+	 *
+	 * @param statusDate the status date of this guest book
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
+
+	/**
+	 * @deprecated As of 6.1.0, replaced by {@link #isApproved()}
+	 */
+	@Override
+	public boolean getApproved();
+
+	/**
+	 * Returns <code>true</code> if this guest book is approved.
+	 *
+	 * @return <code>true</code> if this guest book is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this guest book is denied.
+	 *
+	 * @return <code>true</code> if this guest book is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this guest book is a draft.
+	 *
+	 * @return <code>true</code> if this guest book is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this guest book is expired.
+	 *
+	 * @return <code>true</code> if this guest book is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this guest book is inactive.
+	 *
+	 * @return <code>true</code> if this guest book is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this guest book is incomplete.
+	 *
+	 * @return <code>true</code> if this guest book is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this guest book is pending.
+	 *
+	 * @return <code>true</code> if this guest book is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this guest book is scheduled.
+	 *
+	 * @return <code>true</code> if this guest book is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

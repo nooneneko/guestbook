@@ -38,7 +38,7 @@ public class GuestBookCacheModel implements CacheModel<GuestBook>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -58,6 +58,14 @@ public class GuestBookCacheModel implements CacheModel<GuestBook>,
 		sb.append(modifiedDate);
 		sb.append(", name=");
 		sb.append(name);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -107,6 +115,23 @@ public class GuestBookCacheModel implements CacheModel<GuestBook>,
 			guestBookImpl.setName(name);
 		}
 
+		guestBookImpl.setStatus(status);
+		guestBookImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			guestBookImpl.setStatusByUserName(StringPool.BLANK);
+		}
+		else {
+			guestBookImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			guestBookImpl.setStatusDate(null);
+		}
+		else {
+			guestBookImpl.setStatusDate(new Date(statusDate));
+		}
+
 		guestBookImpl.resetOriginalValues();
 
 		return guestBookImpl;
@@ -123,6 +148,10 @@ public class GuestBookCacheModel implements CacheModel<GuestBook>,
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 		name = objectInput.readUTF();
+		status = objectInput.readInt();
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 	}
 
 	@Override
@@ -156,6 +185,18 @@ public class GuestBookCacheModel implements CacheModel<GuestBook>,
 		else {
 			objectOutput.writeUTF(name);
 		}
+
+		objectOutput.writeInt(status);
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
 	}
 
 	public String uuid;
@@ -167,4 +208,8 @@ public class GuestBookCacheModel implements CacheModel<GuestBook>,
 	public long createDate;
 	public long modifiedDate;
 	public String name;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 }

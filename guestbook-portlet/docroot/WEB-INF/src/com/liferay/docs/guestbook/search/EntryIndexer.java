@@ -8,8 +8,9 @@ import javax.portlet.PortletURL;
 
 import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.service.EntryLocalServiceUtil;
-import com.liferay.docs.guestbook.service.permission.EntryPermission;
+import com.liferay.docs.guestbook.service.permission.GuestBookPermission;
 import com.liferay.docs.guestbook.service.persistence.EntryActionableDynamicQuery;
+import com.liferay.docs.guestbook.util.PortletKeys;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -21,113 +22,139 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchEngineUtil;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.security.permission.ActionKeys;
 import com.liferay.portal.security.permission.PermissionChecker;
 
 public class EntryIndexer extends BaseIndexer {
 
-	private final String[] CLASS_NAME = { EntryIndexer.class.getName() };
+	public static final String[] CLASS_NAMES = { Entry.class.getName() };
 
-	private final String PORTLET_ID = "guestbook-portlet";
+    public static final String PORTLET_ID = PortletKeys.GUESTBOOK;
 
-	@Override
-	public String[] getClassNames() {
-		return CLASS_NAME;
-	}
+    public EntryIndexer() {
 
-	@Override
-	public String getPortletId() {
-		return PORTLET_ID;
-	}
+            setPermissionAware(true); 
+    }
 
-	@Override
-	protected void doDelete(Object obj) throws Exception {
-		Entry entry = (Entry) obj;
-		deleteDocument(entry.getCompanyId(), entry.getEntryId());
+    @Override
+    public String[] getClassNames() {
 
-	}
+            return CLASS_NAMES; 
+    }
 
-	@Override
-	protected Document doGetDocument(Object obj) throws Exception {
-		Entry entry = (Entry) obj;
-		Document document = getBaseModelDocument(PORTLET_ID, entry);
+    @Override
+    public String getPortletId() {
 
-		document.addDate(Field.MODIFIED_DATE, entry.getModifiedDate());
-		document.addText(Field.CONTENT, entry.getMessage());
-		document.addText(Field.TITLE, entry.getName());
-		document.addText("email", entry.getEmail());
-		document.addKeyword(Field.GROUP_ID, getSiteGroupId(entry.getGroupId()));
-		document.addKeyword(Field.SCOPE_GROUP_ID, entry.getGroupId());
+            return PORTLET_ID;
+    }
 
-		return document;
-	}
+    @Override
+    public boolean hasPermission(PermissionChecker permissionChecker,
+                    String entryClassName, long entryClassPK, String actionId)
+                    throws Exception {
 
-	@Override
-	protected Summary doGetSummary(Document document, Locale locale, String snippet, PortletURL portletURL)
-			throws Exception {
-		Summary summary = doGetSummary(document, locale, snippet, portletURL);
-		summary.setMaxContentLength(DEFAULT_INTERVAL);
-		;
-		return summary;
-	}
+            return GuestBookPermission.contain(permissionChecker, entryClassPK,
+                            ActionKeys.VIEW);
+    }
 
-	@Override
-	protected void doReindex(Object obj) throws Exception {
-		Entry entry = (Entry) obj;
-		Document document = getDocument(obj);
-		SearchEngineUtil.updateDocument(getSearchEngineId(), entry.getCompanyId(), document);
-		;
-	}
+    @Override
+    protected void doDelete(Object obj) throws Exception {
 
-	@Override
-	protected void doReindex(String className, long classPK) throws Exception {
-		Entry entry = EntryLocalServiceUtil.getEntry(classPK);
-		doReindex(entry);
-	}
+            Entry entry = (Entry)obj;
 
-	@Override
-	protected void doReindex(String[] ids) throws Exception {
-		long companyId = GetterUtil.getLong(ids[0]);
-		reindexEntries(companyId);
+            deleteDocument(entry.getCompanyId(), entry.getEntryId());
+    }
 
-	}
+    @Override
+    protected Document doGetDocument(Object obj) throws Exception {
 
-	@Override
-	protected String getPortletId(SearchContext searchContext) {
-		return PORTLET_ID;
-	}
+            Entry entry = (Entry)obj;
 
-	@Override
-	public boolean hasPermission(PermissionChecker permissionChecker, String entryClassName, long entryClassPK,
-			String actionId) throws Exception {
-		return EntryPermission.contain(permissionChecker, entryClassPK, entryClassName);
-	}
+            Document document = getBaseModelDocument(PORTLET_ID, entry);
 
-	protected void reindexEntries(long companyId) throws PortalException, SystemException {
+            document.addDate(Field.MODIFIED_DATE, entry.getModifiedDate());
+            document.addText(Field.CONTENT, entry.getMessage());
+            document.addText(Field.TITLE, entry.getName());
+            document.addText("email", entry.getEmail());
+            document.addKeyword(Field.GROUP_ID, getSiteGroupId(entry.getGroupId()));
+            document.addKeyword(Field.SCOPE_GROUP_ID, entry.getGroupId());
 
-		final Collection<Document> documents = new ArrayList<Document>();
+            return document;
+    }
 
-		ActionableDynamicQuery actionableDynamicQuery = new EntryActionableDynamicQuery() {
+    @Override
+    protected Summary doGetSummary(Document document, Locale locale,
+                    String snippet, PortletURL portletURL) throws Exception {
 
-			@Override
-			protected void addCriteria(DynamicQuery dynamicQuery) {
-			}
+            Summary summary = createSummary(document);
 
-			@Override
-			protected void performAction(Object object) throws PortalException {
-				Entry entry = (Entry) object;
+            summary.setMaxContentLength(200);
 
-				Document document = getDocument(entry);
+            return summary;
+    }
 
-				documents.add(document);
-			}
+    @Override
+    protected void doReindex(Object obj) throws Exception {
 
-		};
+            Entry entry = (Entry)obj;
 
-		actionableDynamicQuery.setCompanyId(companyId);
+            Document document = getDocument(entry);
 
-		actionableDynamicQuery.performActions();
+            SearchEngineUtil.updateDocument(
+                    getSearchEngineId(), entry.getCompanyId(), document);
+    }
 
-		SearchEngineUtil.updateDocuments(getSearchEngineId(), companyId, documents);
-	}
+    @Override
+    protected void doReindex(String className, long classPK) throws Exception {
+
+            Entry entry = EntryLocalServiceUtil.getEntry(classPK);
+
+            doReindex(entry);
+    }
+
+    @Override
+    protected void doReindex(String[] ids) throws Exception {
+
+            long companyId = GetterUtil.getLong(ids[0]);
+
+            reindexEntries(companyId);
+    }
+
+    @Override
+    protected String getPortletId(SearchContext searchContext) {
+
+            return PORTLET_ID;
+    }
+
+    protected void reindexEntries(long companyId) throws PortalException,
+                    SystemException {
+
+            final Collection<Document> documents = new ArrayList<Document>();
+
+            ActionableDynamicQuery actionableDynamicQuery = new EntryActionableDynamicQuery() {
+
+                    @Override
+                    protected void addCriteria(DynamicQuery dynamicQuery) {
+                    }
+
+                    @Override
+                    protected void performAction(Object object) throws PortalException {
+                            Entry entry = (Entry) object;
+
+                            Document document = getDocument(entry);
+
+                            documents.add(document);
+                    }
+
+            };
+
+            actionableDynamicQuery.setCompanyId(companyId);
+
+            actionableDynamicQuery.performActions();
+
+            SearchEngineUtil.updateDocuments(getSearchEngineId(), companyId,
+                            documents);
+    }
+
 
 }

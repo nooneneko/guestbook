@@ -307,13 +307,17 @@ public interface EntryLocalService extends BaseLocalService,
 		throws java.lang.Throwable;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntrys(
+	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
 		long groupId, long guestBookId)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntrys(
-		long groupId, long guestBookId, int start, int end)
+	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
+		long groupId, long guestBookId, int status, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getEntriesCount(long groupId, long guestBookId, int status)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public boolean validate(java.lang.String name, java.lang.String email,
@@ -339,4 +343,13 @@ public interface EntryLocalService extends BaseLocalService,
 		com.liferay.portal.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
+
+	public com.liferay.docs.guestbook.model.Entry updateStatus(long userId,
+		long entryId, int status,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public boolean isGroupOwner(long groupId);
 }

@@ -334,16 +334,21 @@ public class EntryLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-	public static java.util.List<com.liferay.docs.guestbook.model.Entry> getEntrys(
+	public static java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
 		long groupId, long guestBookId)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getEntrys(groupId, guestBookId);
+		return getService().getEntries(groupId, guestBookId);
 	}
 
-	public static java.util.List<com.liferay.docs.guestbook.model.Entry> getEntrys(
-		long groupId, long guestBookId, int start, int end)
+	public static java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
+		long groupId, long guestBookId, int status, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getEntrys(groupId, guestBookId, start, end);
+		return getService().getEntries(groupId, guestBookId, status, start, end);
+	}
+
+	public static int getEntriesCount(long groupId, long guestBookId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getEntriesCount(groupId, guestBookId, status);
 	}
 
 	public static boolean validate(java.lang.String name,
@@ -380,6 +385,18 @@ public class EntryLocalServiceUtil {
 		return getService()
 				   .updateEntry(userId, guestBookId, entryId, name, email,
 			message, serviceContext);
+	}
+
+	public static com.liferay.docs.guestbook.model.Entry updateStatus(
+		long userId, long entryId, int status,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().updateStatus(userId, entryId, status, serviceContext);
+	}
+
+	public static boolean isGroupOwner(long groupId) {
+		return getService().isGroupOwner(groupId);
 	}
 
 	public static void clearService() {
