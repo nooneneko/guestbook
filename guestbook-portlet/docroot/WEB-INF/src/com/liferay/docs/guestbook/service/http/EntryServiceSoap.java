@@ -14,6 +14,13 @@
 
 package com.liferay.docs.guestbook.service.http;
 
+import com.liferay.docs.guestbook.service.EntryServiceUtil;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
  * {@link com.liferay.docs.guestbook.service.EntryServiceUtil} service utility. The
@@ -55,4 +62,103 @@ package com.liferay.docs.guestbook.service.http;
  * @generated
  */
 public class EntryServiceSoap {
+	public static com.liferay.docs.guestbook.model.EntrySoap addEntry(
+		long userId, long guestBookId, java.lang.String name,
+		java.lang.String email, java.lang.String message,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			com.liferay.docs.guestbook.model.Entry returnValue = EntryServiceUtil.addEntry(userId,
+					guestBookId, name, email, message, serviceContext);
+
+			return com.liferay.docs.guestbook.model.EntrySoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.EntrySoap deleteEntry(
+		long entryId, com.liferay.portal.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			com.liferay.docs.guestbook.model.Entry returnValue = EntryServiceUtil.deleteEntry(entryId,
+					serviceContext);
+
+			return com.liferay.docs.guestbook.model.EntrySoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.EntrySoap updateEntry(
+		long userId, long guestBookId, long entryId, java.lang.String name,
+		java.lang.String email, java.lang.String message,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			com.liferay.docs.guestbook.model.Entry returnValue = EntryServiceUtil.updateEntry(userId,
+					guestBookId, entryId, name, email, message, serviceContext);
+
+			return com.liferay.docs.guestbook.model.EntrySoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static int getEntriesCount(long groupId, long guestBookId, int status)
+		throws RemoteException {
+		try {
+			int returnValue = EntryServiceUtil.getEntriesCount(groupId,
+					guestBookId, status);
+
+			return returnValue;
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.EntrySoap[] getEntries(
+		long groupId, long guestBookId, int status, int start, int end)
+		throws RemoteException {
+		try {
+			java.util.List<com.liferay.docs.guestbook.model.Entry> returnValue = EntryServiceUtil.getEntries(groupId,
+					guestBookId, status, start, end);
+
+			return com.liferay.docs.guestbook.model.EntrySoap.toSoapModels(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	public static com.liferay.docs.guestbook.model.EntrySoap[] getEntries(
+		long groupId, long guestBookId) throws RemoteException {
+		try {
+			java.util.List<com.liferay.docs.guestbook.model.Entry> returnValue = EntryServiceUtil.getEntries(groupId,
+					guestBookId);
+
+			return com.liferay.docs.guestbook.model.EntrySoap.toSoapModels(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(EntryServiceSoap.class);
 }

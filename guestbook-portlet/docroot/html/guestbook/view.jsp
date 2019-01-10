@@ -72,7 +72,7 @@
 
 </aui:button-row>
 
-<liferay-ui:search-container>
+<liferay-ui:search-container delta="5">
 	<liferay-ui:search-container-results
 		total="<%=EntryLocalServiceUtil.getEntriesCount(scopeGroupId, guestBookId,  WorkflowConstants.STATUS_APPROVED)%>"
 		results="<%=EntryLocalServiceUtil.getEntries(scopeGroupId, guestBookId,  WorkflowConstants.STATUS_APPROVED,

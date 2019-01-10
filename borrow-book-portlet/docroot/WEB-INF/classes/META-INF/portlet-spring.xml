@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.imsw.service.AuthorLocalService" class="com.imsw.service.impl.AuthorLocalServiceImpl" />
+	<bean id="com.imsw.service.AuthorService" class="com.imsw.service.impl.AuthorServiceImpl" />
+	<bean id="com.imsw.service.persistence.AuthorPersistence" class="com.imsw.service.persistence.AuthorPersistenceImpl" parent="basePersistence" />
+	<bean id="com.imsw.service.BookLocalService" class="com.imsw.service.impl.BookLocalServiceImpl" />
+	<bean id="com.imsw.service.BookService" class="com.imsw.service.impl.BookServiceImpl" />
+	<bean id="com.imsw.service.persistence.BookPersistence" class="com.imsw.service.persistence.BookPersistenceImpl" parent="basePersistence" />
+	<bean id="com.imsw.service.BorrowerLocalService" class="com.imsw.service.impl.BorrowerLocalServiceImpl" />
+	<bean id="com.imsw.service.BorrowerService" class="com.imsw.service.impl.BorrowerServiceImpl" />
+	<bean id="com.imsw.service.persistence.BorrowerPersistence" class="com.imsw.service.persistence.BorrowerPersistenceImpl" parent="basePersistence" />
+	<bean id="com.imsw.service.LoanLocalService" class="com.imsw.service.impl.LoanLocalServiceImpl" />
+	<bean id="com.imsw.service.LoanService" class="com.imsw.service.impl.LoanServiceImpl" />
+	<bean id="com.imsw.service.persistence.LoanPersistence" class="com.imsw.service.persistence.LoanPersistenceImpl" parent="basePersistence" />
+</beans>

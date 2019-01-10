@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_2_0.dtd">
+<service-builder package-path="com.imsw">
+	<author>User</author>
+	<namespace>BB</namespace>
+	<entity name="Book" uuid="true" local-service="true">
+
+
+		<!-- PK fields -->
+
+		<column name="bookId" primary="true" type="long"></column>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="cost" type="int"></column>
+        <column name="title" type="String"></column>
+        <column name="description" type="String"></column>
+        <column name="authorId" type="long"></column>
+        <finder name="G_A" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="authorId"></finder-column>
+        </finder>
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+	</entity>
+	<entity name="Author" local-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="authorId" primary="true" type="long"></column>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="name" type="String"></column>
+        <column name="email" type="String"></column>
+        <column name="address" type="String"></column>
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+	</entity>
+	<entity local-service="true" name="Borrower" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="borrowerId" primary="true" type="long"></column>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="name" type="String"></column>
+        <column name="address" type="String"></column>
+        <column name="city" type="String"></column>
+        <column name="email" type="String"></column>
+        <column name="PhoneNo" type="String"></column>
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+	</entity>
+	<entity name="Loan" local-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="loanId" primary="true" type="long"></column>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long"></column>
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long"></column>
+		<column name="userId" type="long"></column>
+		<column name="userName" type="String"></column>
+		<column name="createDate" type="Date"></column>
+		<column name="modifiedDate" type="Date"></column>
+        <column name="dateStart" type="Date"></column>
+        <column name="dateFinish" type="Date"></column>
+        <column name="borrowerId" type="long"></column>
+        <column name="bookId" type="long"></column>
+        <finder name="G_B_B" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="bookId"></finder-column>
+            <finder-column name="borrowerId"></finder-column>
+        </finder>
+        <finder name="G_Br" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="borrowerId"></finder-column>
+        </finder>
+        <finder name="G_B" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="bookId"></finder-column>
+        </finder>
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+	</entity>
+    <exceptions>
+        <exception>BookCost</exception>
+        <exception>BookTitle</exception>
+        <exception>AuthorName</exception>
+        <exception>BorrowerName</exception>
+        <exception>LoanDateStart</exception>
+        <exception>LoanDateFinish</exception>
+        <exception>AuthorEmail</exception>
+        <exception>AuthorAddress</exception>
+    </exceptions>
+</service-builder>

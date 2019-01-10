@@ -34,7 +34,9 @@
         .getInstance(request);
 
         searchContext.setKeywords(keywords);
-        searchContext.setAttribute("paginationType", "more");
+        Map<String, Serializable> attributes = new HashMap<String, Serializable>();
+        attributes.put("paginationType", "more");
+        searchContext.setAttributes(attributes);
         searchContext.setStart(0);
         searchContext.setEnd(10);
 

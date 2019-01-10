@@ -63,6 +63,48 @@ public class GuestBookServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<com.liferay.docs.guestbook.model.GuestBook> getGuestbooks(
+		long groupId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getGuestbooks(groupId, status);
+	}
+
+	public static java.util.List<com.liferay.docs.guestbook.model.GuestBook> getGuestbooks(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getGuestbooks(groupId, start, end);
+	}
+
+	public static int getGuestbooksCount(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getGuestbooksCount(groupId);
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestBook addGuestBook(
+		long userId, java.lang.String name,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().addGuestBook(userId, name, serviceContext);
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestBook updateGuestBook(
+		long userId, long guestBookId, java.lang.String name,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateGuestBook(userId, guestBookId, name, serviceContext);
+	}
+
+	public static com.liferay.docs.guestbook.model.GuestBook deleteGuestBook(
+		long guestBookId,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteGuestBook(guestBookId, serviceContext);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

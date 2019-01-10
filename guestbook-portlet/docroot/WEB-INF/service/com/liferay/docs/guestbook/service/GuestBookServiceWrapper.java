@@ -56,6 +56,54 @@ public class GuestBookServiceWrapper implements GuestBookService,
 		return _guestBookService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.GuestBook> getGuestbooks(
+		long groupId, int status)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _guestBookService.getGuestbooks(groupId, status);
+	}
+
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.GuestBook> getGuestbooks(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _guestBookService.getGuestbooks(groupId, start, end);
+	}
+
+	@Override
+	public int getGuestbooksCount(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _guestBookService.getGuestbooksCount(groupId);
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.GuestBook addGuestBook(
+		long userId, java.lang.String name,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _guestBookService.addGuestBook(userId, name, serviceContext);
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.GuestBook updateGuestBook(
+		long userId, long guestBookId, java.lang.String name,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _guestBookService.updateGuestBook(userId, guestBookId, name,
+			serviceContext);
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.GuestBook deleteGuestBook(
+		long guestBookId,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _guestBookService.deleteGuestBook(guestBookId, serviceContext);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

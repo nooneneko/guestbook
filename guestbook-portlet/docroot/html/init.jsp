@@ -65,5 +65,7 @@
 <%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
 
 <%@ page import="com.liferay.portal.kernel.workflow.WorkflowConstants" %>
+
+<%@ page import="java.io.Serializable" %>
 <portlet:defineObjects />
 <theme:defineObjects />

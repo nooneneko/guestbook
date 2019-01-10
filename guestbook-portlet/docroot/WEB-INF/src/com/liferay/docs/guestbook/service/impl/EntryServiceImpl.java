@@ -14,7 +14,14 @@
 
 package com.liferay.docs.guestbook.service.impl;
 
+import java.util.List;
+
+import com.liferay.docs.guestbook.model.Entry;
+import com.liferay.docs.guestbook.service.EntryLocalServiceUtil;
 import com.liferay.docs.guestbook.service.base.EntryServiceBaseImpl;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.service.ServiceContext;
 
 /**
  * The implementation of the entry remote service.
@@ -35,5 +42,33 @@ public class EntryServiceImpl extends EntryServiceBaseImpl {
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link com.liferay.docs.guestbook.service.EntryServiceUtil} to access the entry remote service.
+	 * 
+	 * 
 	 */
+	
+	public Entry addEntry(long userId, long guestBookId, String name, String email, String message,
+			ServiceContext serviceContext) throws SystemException, PortalException {
+		return EntryLocalServiceUtil.addEntry(userId, guestBookId, name, email, message, serviceContext);
+	}
+	
+	public Entry deleteEntry(long entryId, ServiceContext serviceContext) throws PortalException, SystemException {
+		return EntryLocalServiceUtil.deleteEntry(entryId, serviceContext);
+	}
+	
+	public Entry updateEntry(long userId, long guestBookId, long entryId, String name, String email, String message,
+			ServiceContext serviceContext) throws PortalException, SystemException {
+		return EntryLocalServiceUtil.updateEntry(userId, guestBookId, entryId, name, email, message, serviceContext);
+	}
+	
+	public int getEntriesCount(long groupId, long guestBookId, int status) throws SystemException {
+		return EntryLocalServiceUtil.getEntriesCount(groupId, guestBookId, status);
+	}
+	
+	public List<Entry> getEntries(long groupId, long guestBookId, int status, int start, int end) throws SystemException {
+		return EntryLocalServiceUtil.getEntries(groupId, guestBookId, status, start, end);
+	}
+	
+	public List<Entry> getEntries(long groupId, long guestBookId) throws SystemException {
+		return EntryLocalServiceUtil.getEntries(groupId, guestBookId);
+	}
 }

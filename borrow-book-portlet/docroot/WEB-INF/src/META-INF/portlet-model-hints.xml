@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.imsw.model.Author">
+		<field name="uuid" type="String" />
+		<field name="authorId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="email" type="String" />
+		<field name="address" type="String" />
+	</model>
+	<model name="com.imsw.model.Book">
+		<field name="uuid" type="String" />
+		<field name="bookId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="cost" type="int" />
+		<field name="title" type="String" />
+		<field name="description" type="String" />
+		<field name="authorId" type="long" />
+	</model>
+	<model name="com.imsw.model.Borrower">
+		<field name="uuid" type="String" />
+		<field name="borrowerId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="address" type="String" />
+		<field name="city" type="String" />
+		<field name="email" type="String" />
+		<field name="PhoneNo" type="String" />
+	</model>
+	<model name="com.imsw.model.Loan">
+		<field name="uuid" type="String" />
+		<field name="loanId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="dateStart" type="Date" />
+		<field name="dateFinish" type="Date" />
+		<field name="borrowerId" type="long" />
+		<field name="bookId" type="long" />
+	</model>
+</model-hints>
