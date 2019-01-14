@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0" 
+		xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd">
+	<display-name>Borrower Book Service</display-name>
+	<tlib-version>1.0</tlib-version>
+	<short-name>borrower-book</short-name>
+	<uri>http://sanhsang.com</uri>
+	<!-- Borrower -->
+	<function>
+		<name>countBorrowers</name>
+		<function-class>com.imsw.service.BorrowerLocalServiceUtil</function-class>
+		<function-signature>int countByGroupIdGuestbookId(long)</function-signature>
+	</function>
+	<function>
+		<name>getListBorrowersStartEnd</name>
+		<function-class>com.imsw.service.BorrowerLocalServiceUtil</function-class>
+		<function-signature>java.util.List getListBorrowers(long,int,int)</function-signature>
+	</function>
+	<function>
+		<name>getListBorrowers</name>
+		<function-class>com.imsw.service.BorrowerLocalServiceUtil</function-class>
+		<function-signature>java.util.List getListBorrowers(long)</function-signature>
+	</function>
+	
+	<!--Loan-->
+	<function>
+		<name>countLoans</name>
+		<function-class>com.imsw.service.LoanLocalServiceUtil</function-class>
+		<function-signature>int countByGroupId(long)</function-signature>
+	</function>
+	<function>
+		<name>getListLoans</name>
+		<function-class>com.imsw.service.LoanLocalServiceUtil</function-class>
+		<function-signature>java.util.List getListLoans(long, int, int)</function-signature>
+	</function>
+		<!--Book-->
+	<function>
+		<name>countBooks</name>
+		<function-class>com.imsw.service.BookLocalServiceUtil</function-class>
+		<function-signature>int countBooks(long, long)</function-signature>
+	</function>
+	<function>
+		<name>getListBooks</name>
+		<function-class>com.imsw.service.BookLocalServiceUtil</function-class>
+		<function-signature>java.util.List getListBooks(long, long, int, int)</function-signature>
+	</function>
+		<!--Author-->
+	<function>
+		<name>countAuthors</name>
+		<function-class>com.imsw.service.AuthorLocalServiceUtil</function-class>
+		<function-signature>int countByGroupId(long)</function-signature>
+	</function>
+	<function>
+		<name>getListAuthors</name>
+		<function-class>com.imsw.service.AuthorLocalServiceUtil</function-class>
+		<function-signature>java.util.List getListAuthors(long, int, int)</function-signature>
+	</function>
+</taglib>

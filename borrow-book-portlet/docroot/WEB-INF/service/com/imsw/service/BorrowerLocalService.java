@@ -303,4 +303,25 @@ public interface BorrowerLocalService extends BaseLocalService,
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.imsw.model.Borrower> getListBorrowers(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.imsw.model.Borrower> getListBorrowers(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countBorrowers(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public com.imsw.model.Borrower addBorrower(long userId,
+		java.lang.String name, java.lang.String email,
+		java.lang.String address, java.lang.String city,
+		java.lang.String phoneNo,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

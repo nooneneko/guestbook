@@ -331,6 +331,35 @@ public class BorrowerLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<com.imsw.model.Borrower> getListBorrowers(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getListBorrowers(groupId, start, end);
+	}
+
+	public static java.util.List<com.imsw.model.Borrower> getListBorrowers(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getListBorrowers(groupId);
+	}
+
+	public static int countBorrowers(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countBorrowers(groupId);
+	}
+
+	public static com.imsw.model.Borrower addBorrower(long userId,
+		java.lang.String name, java.lang.String email,
+		java.lang.String address, java.lang.String city,
+		java.lang.String phoneNo,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addBorrower(userId, name, email, address, city, phoneNo,
+			serviceContext);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

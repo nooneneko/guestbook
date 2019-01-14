@@ -14,7 +14,19 @@
 
 package com.imsw.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import com.imsw.LoanDateFinishException;
+import com.imsw.LoanDateStartException;
+import com.imsw.model.Loan;
 import com.imsw.service.base.LoanLocalServiceBaseImpl;
+import com.liferay.portal.NoSuchUserException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.model.User;
+import com.liferay.portal.service.ServiceContext;
 
 /**
  * The implementation of the loan local service.
@@ -36,4 +48,55 @@ public class LoanLocalServiceImpl extends LoanLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.imsw.service.LoanLocalServiceUtil} to access the loan local service.
 	 */
+	
+	public List<Loan> getListLoans(long groupId, long borrowerId) throws SystemException {
+		return loanPersistence.findByG_Br(groupId, borrowerId);
+	}
+	
+	public List<Loan> getListLoans(long groupId, long borrowerId, int start, int end) throws SystemException {
+		return loanPersistence.findByG_Br(groupId, borrowerId, start, end);
+	}
+	
+	public int countLoans(long groupId, long borrowerId) throws SystemException {
+		return loanPersistence.countByG_Br(groupId, borrowerId);
+	}
+	
+	public Loan addLoan(long userId, Date dateStart, Date dateFinish, ServiceContext serviceContext) throws PortalException, SystemException {
+		User user = userPersistence.findByPrimaryKey(userId);
+		
+		Date now = new Date();
+		
+		long groupId = serviceContext.getScopeGroupId();
+		
+		validate(dateStart, dateFinish);
+		
+		long loanId = counterLocalService.increment();
+		
+		Loan loan = loanPersistence.create(loanId);
+		
+		loan.setCompanyId(serviceContext.getCompanyId());
+		loan.setGroupId(groupId);
+		loan.setUserId(userId);
+		loan.setUserName(user.getFullName());
+		loan.setUuid(serviceContext.getUuid());
+		loan.setCreateDate(serviceContext.getCreateDate(now));
+		loan.setModifiedDate(serviceContext.getModifiedDate(now));
+		
+		loan.setDateStart(dateStart);
+		loan.setDateFinish(dateFinish);
+		
+		loan.setExpandoBridgeAttributes(serviceContext);
+		
+		return null;
+	}
+
+	protected void validate(Date dateStart, Date dateFinish) throws PortalException {
+		if (Validator.isNull(dateStart)) {
+			throw new LoanDateStartException();
+		}
+		
+		if (Validator.isNull(dateFinish)) {
+			throw new LoanDateFinishException();
+		}
+	}
 }

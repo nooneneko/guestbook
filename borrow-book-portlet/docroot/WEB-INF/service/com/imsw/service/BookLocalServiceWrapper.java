@@ -340,6 +340,36 @@ public class BookLocalServiceWrapper implements BookLocalService,
 		return _bookLocalService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	@Override
+	public java.util.List<com.imsw.model.Book> getListBooks(long groupId,
+		long authorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.getListBooks(groupId, authorId);
+	}
+
+	@Override
+	public java.util.List<com.imsw.model.Book> getListBooks(long groupId,
+		long authorId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.getListBooks(groupId, authorId, start, end);
+	}
+
+	@Override
+	public int countBooks(long groupId, long authorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.countBooks(groupId, authorId);
+	}
+
+	@Override
+	public com.imsw.model.Book addBook(long userId, java.lang.String title,
+		java.lang.String description, int cost,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _bookLocalService.addBook(userId, title, description, cost,
+			serviceContext);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

@@ -135,6 +135,13 @@ public class AuthorLocalServiceClp implements AuthorLocalService {
 		_methodName25 = "getAuthorsCount";
 
 		_methodParameterTypes25 = new String[] { "long" };
+
+		_methodName26 = "addAuthor";
+
+		_methodParameterTypes26 = new String[] {
+				"long", "java.lang.String", "java.lang.String",
+				"java.lang.String", "com.liferay.portal.service.ServiceContext"
+			};
 	}
 
 	@Override
@@ -895,6 +902,52 @@ public class AuthorLocalServiceClp implements AuthorLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
+	@Override
+	public com.imsw.model.Author addAuthor(long userId, java.lang.String name,
+		java.lang.String email, java.lang.String address,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName26,
+					_methodParameterTypes26,
+					new Object[] {
+						userId,
+						
+					ClpSerializer.translateInput(name),
+						
+					ClpSerializer.translateInput(email),
+						
+					ClpSerializer.translateInput(address),
+						
+					ClpSerializer.translateInput(serviceContext)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.PortalException) {
+				throw (com.liferay.portal.kernel.exception.PortalException)t;
+			}
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (com.imsw.model.Author)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -946,4 +999,6 @@ public class AuthorLocalServiceClp implements AuthorLocalService {
 	private String[] _methodParameterTypes24;
 	private String _methodName25;
 	private String[] _methodParameterTypes25;
+	private String _methodName26;
+	private String[] _methodParameterTypes26;
 }

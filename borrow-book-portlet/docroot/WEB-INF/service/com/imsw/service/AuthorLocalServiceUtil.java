@@ -346,6 +346,16 @@ public class AuthorLocalServiceUtil {
 		return getService().getAuthorsCount(groupId);
 	}
 
+	public static com.imsw.model.Author addAuthor(long userId,
+		java.lang.String name, java.lang.String email,
+		java.lang.String address,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addAuthor(userId, name, email, address, serviceContext);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

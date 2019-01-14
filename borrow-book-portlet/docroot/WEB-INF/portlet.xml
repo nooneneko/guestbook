@@ -5,7 +5,7 @@
 	<portlet>
 		<portlet-name>borrow-book</portlet-name>
 		<display-name>Borrow Book</display-name>
-		<portlet-class>com.imsw.BorrowBookPortlet</portlet-class>
+		<portlet-class>com.imsw.portlets.BorrowBookPortlet</portlet-class>
 		<init-param>
 			<name>view-template</name>
 			<value>/html/borrowbook/view.jsp</value>

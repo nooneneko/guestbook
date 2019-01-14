@@ -340,6 +340,36 @@ public class LoanLocalServiceWrapper implements LoanLocalService,
 		return _loanLocalService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	@Override
+	public java.util.List<com.imsw.model.Loan> getListLoans(long groupId,
+		long borrowerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _loanLocalService.getListLoans(groupId, borrowerId);
+	}
+
+	@Override
+	public java.util.List<com.imsw.model.Loan> getListLoans(long groupId,
+		long borrowerId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _loanLocalService.getListLoans(groupId, borrowerId, start, end);
+	}
+
+	@Override
+	public int countLoans(long groupId, long borrowerId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _loanLocalService.countLoans(groupId, borrowerId);
+	}
+
+	@Override
+	public com.imsw.model.Loan addLoan(long userId, java.util.Date dateStart,
+		java.util.Date dateFinish,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _loanLocalService.addLoan(userId, dateStart, dateFinish,
+			serviceContext);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

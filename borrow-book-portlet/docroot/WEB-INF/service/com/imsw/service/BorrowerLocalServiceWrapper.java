@@ -346,6 +346,38 @@ public class BorrowerLocalServiceWrapper implements BorrowerLocalService,
 			arguments);
 	}
 
+	@Override
+	public java.util.List<com.imsw.model.Borrower> getListBorrowers(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _borrowerLocalService.getListBorrowers(groupId, start, end);
+	}
+
+	@Override
+	public java.util.List<com.imsw.model.Borrower> getListBorrowers(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _borrowerLocalService.getListBorrowers(groupId);
+	}
+
+	@Override
+	public int countBorrowers(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _borrowerLocalService.countBorrowers(groupId);
+	}
+
+	@Override
+	public com.imsw.model.Borrower addBorrower(long userId,
+		java.lang.String name, java.lang.String email,
+		java.lang.String address, java.lang.String city,
+		java.lang.String phoneNo,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _borrowerLocalService.addBorrower(userId, name, email, address,
+			city, phoneNo, serviceContext);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

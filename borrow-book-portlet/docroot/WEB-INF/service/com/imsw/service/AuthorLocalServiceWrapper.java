@@ -359,6 +359,16 @@ public class AuthorLocalServiceWrapper implements AuthorLocalService,
 		return _authorLocalService.getAuthorsCount(groupId);
 	}
 
+	@Override
+	public com.imsw.model.Author addAuthor(long userId, java.lang.String name,
+		java.lang.String email, java.lang.String address,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _authorLocalService.addAuthor(userId, name, email, address,
+			serviceContext);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

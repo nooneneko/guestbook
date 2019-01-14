@@ -327,6 +327,32 @@ public class BookLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<com.imsw.model.Book> getListBooks(
+		long groupId, long authorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getListBooks(groupId, authorId);
+	}
+
+	public static java.util.List<com.imsw.model.Book> getListBooks(
+		long groupId, long authorId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getListBooks(groupId, authorId, start, end);
+	}
+
+	public static int countBooks(long groupId, long authorId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countBooks(groupId, authorId);
+	}
+
+	public static com.imsw.model.Book addBook(long userId,
+		java.lang.String title, java.lang.String description, int cost,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addBook(userId, title, description, cost, serviceContext);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

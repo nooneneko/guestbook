@@ -301,4 +301,23 @@ public interface BookLocalService extends BaseLocalService, InvokableLocalServic
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.imsw.model.Book> getListBooks(long groupId,
+		long authorId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.imsw.model.Book> getListBooks(long groupId,
+		long authorId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countBooks(long groupId, long authorId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public com.imsw.model.Book addBook(long userId, java.lang.String title,
+		java.lang.String description, int cost,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

@@ -123,6 +123,26 @@ public class BorrowerLocalServiceClpInvoker {
 		_methodName57 = "setBeanIdentifier";
 
 		_methodParameterTypes57 = new String[] { "java.lang.String" };
+
+		_methodName62 = "getListBorrowers";
+
+		_methodParameterTypes62 = new String[] { "long", "int", "int" };
+
+		_methodName63 = "getListBorrowers";
+
+		_methodParameterTypes63 = new String[] { "long" };
+
+		_methodName64 = "countBorrowers";
+
+		_methodParameterTypes64 = new String[] { "long" };
+
+		_methodName65 = "addBorrower";
+
+		_methodParameterTypes65 = new String[] {
+				"long", "java.lang.String", "java.lang.String",
+				"java.lang.String", "java.lang.String", "java.lang.String",
+				"com.liferay.portal.service.ServiceContext"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -250,6 +270,32 @@ public class BorrowerLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName62.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
+			return BorrowerLocalServiceUtil.getListBorrowers(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue(),
+				((Integer)arguments[2]).intValue());
+		}
+
+		if (_methodName63.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
+			return BorrowerLocalServiceUtil.getListBorrowers(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
+			return BorrowerLocalServiceUtil.countBorrowers(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			return BorrowerLocalServiceUtil.addBorrower(((Long)arguments[0]).longValue(),
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
+				(java.lang.String)arguments[3], (java.lang.String)arguments[4],
+				(java.lang.String)arguments[5],
+				(com.liferay.portal.service.ServiceContext)arguments[6]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -297,4 +343,12 @@ public class BorrowerLocalServiceClpInvoker {
 	private String[] _methodParameterTypes56;
 	private String _methodName57;
 	private String[] _methodParameterTypes57;
+	private String _methodName62;
+	private String[] _methodParameterTypes62;
+	private String _methodName63;
+	private String[] _methodParameterTypes63;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
 }

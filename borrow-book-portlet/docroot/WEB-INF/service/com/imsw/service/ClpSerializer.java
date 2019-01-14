@@ -437,8 +437,24 @@ public class ClpSerializer {
 			return new com.imsw.BookTitleException();
 		}
 
+		if (className.equals("com.imsw.BorrowerAddressException")) {
+			return new com.imsw.BorrowerAddressException();
+		}
+
+		if (className.equals("com.imsw.BorrowerCityException")) {
+			return new com.imsw.BorrowerCityException();
+		}
+
+		if (className.equals("com.imsw.BorrowerEmailException")) {
+			return new com.imsw.BorrowerEmailException();
+		}
+
 		if (className.equals("com.imsw.BorrowerNameException")) {
 			return new com.imsw.BorrowerNameException();
+		}
+
+		if (className.equals("com.imsw.BorrowerPhoneNoException")) {
+			return new com.imsw.BorrowerPhoneNoException();
 		}
 
 		if (className.equals("com.imsw.LoanDateFinishException")) {

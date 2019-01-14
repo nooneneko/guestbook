@@ -301,4 +301,23 @@ public interface LoanLocalService extends BaseLocalService, InvokableLocalServic
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.imsw.model.Loan> getListLoans(long groupId,
+		long borrowerId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<com.imsw.model.Loan> getListLoans(long groupId,
+		long borrowerId, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countLoans(long groupId, long borrowerId)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public com.imsw.model.Loan addLoan(long userId, java.util.Date dateStart,
+		java.util.Date dateFinish,
+		com.liferay.portal.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException;
 }

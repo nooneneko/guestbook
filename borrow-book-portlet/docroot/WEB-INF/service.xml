@@ -130,5 +130,9 @@
         <exception>LoanDateFinish</exception>
         <exception>AuthorEmail</exception>
         <exception>AuthorAddress</exception>
+        <exception>BorrowerEmail</exception>
+        <exception>BorrowerAddress</exception>
+        <exception>BorrowerPhoneNo</exception>
+        <exception>BorrowerCity</exception>
     </exceptions>
 </service-builder>

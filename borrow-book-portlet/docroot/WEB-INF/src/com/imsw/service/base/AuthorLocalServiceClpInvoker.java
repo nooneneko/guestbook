@@ -135,6 +135,13 @@ public class AuthorLocalServiceClpInvoker {
 		_methodName64 = "getAuthorsCount";
 
 		_methodParameterTypes64 = new String[] { "long" };
+
+		_methodName65 = "addAuthor";
+
+		_methodParameterTypes65 = new String[] {
+				"long", "java.lang.String", "java.lang.String",
+				"java.lang.String", "com.liferay.portal.service.ServiceContext"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -279,6 +286,14 @@ public class AuthorLocalServiceClpInvoker {
 			return AuthorLocalServiceUtil.getAuthorsCount(((Long)arguments[0]).longValue());
 		}
 
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			return AuthorLocalServiceUtil.addAuthor(((Long)arguments[0]).longValue(),
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
+				(java.lang.String)arguments[3],
+				(com.liferay.portal.service.ServiceContext)arguments[4]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -332,4 +347,6 @@ public class AuthorLocalServiceClpInvoker {
 	private String[] _methodParameterTypes63;
 	private String _methodName64;
 	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
 }

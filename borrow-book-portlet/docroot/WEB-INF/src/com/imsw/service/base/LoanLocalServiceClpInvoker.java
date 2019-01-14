@@ -123,6 +123,25 @@ public class LoanLocalServiceClpInvoker {
 		_methodName57 = "setBeanIdentifier";
 
 		_methodParameterTypes57 = new String[] { "java.lang.String" };
+
+		_methodName62 = "getListLoans";
+
+		_methodParameterTypes62 = new String[] { "long", "long" };
+
+		_methodName63 = "getListLoans";
+
+		_methodParameterTypes63 = new String[] { "long", "long", "int", "int" };
+
+		_methodName64 = "countLoans";
+
+		_methodParameterTypes64 = new String[] { "long", "long" };
+
+		_methodName65 = "addLoan";
+
+		_methodParameterTypes65 = new String[] {
+				"long", "java.util.Date", "java.util.Date",
+				"com.liferay.portal.service.ServiceContext"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -250,6 +269,33 @@ public class LoanLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName62.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
+			return LoanLocalServiceUtil.getListLoans(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
+		if (_methodName63.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
+			return LoanLocalServiceUtil.getListLoans(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Integer)arguments[2]).intValue(),
+				((Integer)arguments[3]).intValue());
+		}
+
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
+			return LoanLocalServiceUtil.countLoans(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			return LoanLocalServiceUtil.addLoan(((Long)arguments[0]).longValue(),
+				(java.util.Date)arguments[1], (java.util.Date)arguments[2],
+				(com.liferay.portal.service.ServiceContext)arguments[3]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -297,4 +343,12 @@ public class LoanLocalServiceClpInvoker {
 	private String[] _methodParameterTypes56;
 	private String _methodName57;
 	private String[] _methodParameterTypes57;
+	private String _methodName62;
+	private String[] _methodParameterTypes62;
+	private String _methodName63;
+	private String[] _methodParameterTypes63;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
 }

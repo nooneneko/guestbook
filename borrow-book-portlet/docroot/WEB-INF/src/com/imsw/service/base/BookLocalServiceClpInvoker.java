@@ -123,6 +123,25 @@ public class BookLocalServiceClpInvoker {
 		_methodName57 = "setBeanIdentifier";
 
 		_methodParameterTypes57 = new String[] { "java.lang.String" };
+
+		_methodName62 = "getListBooks";
+
+		_methodParameterTypes62 = new String[] { "long", "long" };
+
+		_methodName63 = "getListBooks";
+
+		_methodParameterTypes63 = new String[] { "long", "long", "int", "int" };
+
+		_methodName64 = "countBooks";
+
+		_methodParameterTypes64 = new String[] { "long", "long" };
+
+		_methodName65 = "addBook";
+
+		_methodParameterTypes65 = new String[] {
+				"long", "java.lang.String", "java.lang.String", "int",
+				"com.liferay.portal.service.ServiceContext"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -250,6 +269,34 @@ public class BookLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName62.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes62, parameterTypes)) {
+			return BookLocalServiceUtil.getListBooks(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
+		if (_methodName63.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes63, parameterTypes)) {
+			return BookLocalServiceUtil.getListBooks(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue(),
+				((Integer)arguments[2]).intValue(),
+				((Integer)arguments[3]).intValue());
+		}
+
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
+			return BookLocalServiceUtil.countBooks(((Long)arguments[0]).longValue(),
+				((Long)arguments[1]).longValue());
+		}
+
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
+			return BookLocalServiceUtil.addBook(((Long)arguments[0]).longValue(),
+				(java.lang.String)arguments[1], (java.lang.String)arguments[2],
+				((Integer)arguments[3]).intValue(),
+				(com.liferay.portal.service.ServiceContext)arguments[4]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -297,4 +344,12 @@ public class BookLocalServiceClpInvoker {
 	private String[] _methodParameterTypes56;
 	private String _methodName57;
 	private String[] _methodParameterTypes57;
+	private String _methodName62;
+	private String[] _methodParameterTypes62;
+	private String _methodName63;
+	private String[] _methodParameterTypes63;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
 }
