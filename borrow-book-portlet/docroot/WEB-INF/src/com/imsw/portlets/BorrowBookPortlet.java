@@ -1,7 +1,9 @@
 package com.imsw.portlets;
 
+import com.imsw.model.Author;
 import com.imsw.model.Book;
 import com.imsw.model.Borrower;
+import com.imsw.service.AuthorLocalServiceUtil;
 import com.imsw.service.BookLocalServiceUtil;
 import com.imsw.service.BorrowerLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -53,11 +55,32 @@ public class BorrowBookPortlet extends MVCPortlet {
 		
 		try {
 			BookLocalServiceUtil.addBook(serviceContext.getUserId(), title, description, cost, serviceContext);
+			
+			SessionMessages.add(actionRequest, "authorAdd");
 		} catch (Exception e) {
 			SessionErrors.add(actionRequest, e.getClass().getName());
 			
 			actionResponse.setRenderParameter("mvcPath", 
 					"/html/borrowbook/edit_book.jsp");
+		}
+	}
+
+	public void addNewAuthor(ActionRequest actionRequest, ActionResponse actionResponse) throws PortalException, SystemException {
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(Author.class.getName(), 
+				actionRequest);
+		
+		String name = ParamUtil.getString(actionRequest, "name");
+		String email = ParamUtil.getString(actionRequest, "email");
+		String address = ParamUtil.getString(actionRequest, "address");
+		
+		try {
+			AuthorLocalServiceUtil.addAuthor(serviceContext.getUserId(), name, email, address, serviceContext);
+			
+			SessionMessages.add(actionRequest, "authorAdd");
+		} catch(Exception e) {
+			SessionErrors.add(actionRequest, e.getClass().getName());
+			
+			actionResponse.setRenderParameter("mvcPath", "/html/borrowbook/edit_author.jsp");
 		}
 	}
  

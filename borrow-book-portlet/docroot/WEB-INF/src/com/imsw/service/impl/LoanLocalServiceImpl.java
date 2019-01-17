@@ -87,6 +87,8 @@ public class LoanLocalServiceImpl extends LoanLocalServiceBaseImpl {
 		
 		loan.setExpandoBridgeAttributes(serviceContext);
 		
+		loanPersistence.update(loan);
+		
 		return null;
 	}
 

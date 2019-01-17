@@ -8,6 +8,6 @@
 
 <aui:form action="${addNewLoanURL }" name="loan-form">
 	<aui:fieldset>
-		<aui:input name=""/>
+		<aui:input name="" label=""/>
 	</aui:fieldset>
 </aui:form>

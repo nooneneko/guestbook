@@ -34,6 +34,11 @@
 	
 	<portlet:renderURL var="addBookURL">	
 		<portlet:param name="mvcPath" value="/html/borrowbook/edit_book.jsp" />
+		<portlet:param name="authorId" value="/html/borrowbook/edit_author.jsp"/>
+	</portlet:renderURL>
+	
+	<portlet:renderURL var="addAuthorURL">	
+		<portlet:param name="mvcPath" value="/html/borrowbook/edit_author.jsp" />
 	</portlet:renderURL>
 
 	<portlet:renderURL var="addLoanURL">
@@ -45,6 +50,10 @@
 
 	<aui:button onClick="${addLoanURL}" value="Add Loan"/>
 	
+	<aui:button onClick="${addAuthorURL}" value="Add Author"/>
+	
 	<aui:button onClick="${addBookURL}" value="Add Book"/>
 
 </aui:button-row>
+
+

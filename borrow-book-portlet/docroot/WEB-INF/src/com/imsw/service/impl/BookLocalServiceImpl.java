@@ -86,6 +86,8 @@ public class BookLocalServiceImpl extends BookLocalServiceBaseImpl {
 		
 		newBook.setExpandoBridgeAttributes(serviceContext);
 		
+		bookPersistence.update(newBook);
+		
 		return newBook;
 	}
 
